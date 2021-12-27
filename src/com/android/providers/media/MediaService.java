@@ -63,6 +63,14 @@ public class MediaService extends JobIntentService {
         enqueueWork(context, MediaService.class, JOB_ID, work);
     }
 
+    /**
+     * Return false to drop this and all following work
+     * As onHandleWork->onScanVolume will continue to running
+     */
+    public boolean onStopCurrentWork() {
+        return false;
+    }
+
     @Override
     protected void onHandleWork(Intent intent) {
         Trace.beginSection(intent.getAction());

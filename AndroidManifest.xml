@@ -119,7 +119,8 @@
 
         <activity
                 android:name="com.android.providers.media.PermissionActivity"
-                android:configChanges="orientation|keyboardHidden|screenSize"
+	        android:launchMode="singleTask"
+	        android:configChanges="orientation|keyboardHidden|screenSize"
                 android:theme="@style/PickerDialogTheme"
                 android:exported="false"
                 android:excludeFromRecents="true" />

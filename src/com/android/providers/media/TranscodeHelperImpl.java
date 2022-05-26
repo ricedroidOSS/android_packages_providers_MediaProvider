@@ -203,6 +203,7 @@ public class TranscodeHelperImpl implements TranscodeHelper {
 
     /** Coefficient to 'guess' how long a transcoding session might take */
     private static final double TRANSCODING_TIMEOUT_COEFFICIENT = 2;
+    private static final double TRANSCODING_START_LATENCY = 1;
     /** Coefficient to 'guess' how large a transcoded file might be */
     private static final double TRANSCODING_SIZE_COEFFICIENT = 2;
 
@@ -1220,7 +1221,7 @@ public class TranscodeHelperImpl implements TranscodeHelper {
         double sizeMb = (new File(file).length() / (1024 * 1024));
         // Ensure size is at least 1MB so transcoding timeout is at least the timeout coefficient
         sizeMb = Math.max(sizeMb, 1);
-        return (int) (sizeMb * TRANSCODING_TIMEOUT_COEFFICIENT);
+        return (int) (sizeMb * TRANSCODING_TIMEOUT_COEFFICIENT + TRANSCODING_START_LATENCY);
     }
 
     private void finishTranscodingResult(int uid, String src, TranscodingSession session,

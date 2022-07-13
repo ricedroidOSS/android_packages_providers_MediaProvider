@@ -2021,7 +2021,11 @@ void FuseDaemon::InvalidateFuseDentryCache(const std::string& path) {
         }
 
         if (!name.empty()) {
-            fuse_inval(fuse->se, parent, child, name, path);
+            //try to call fuse_inval in another thread
+            // to avoid blocking current thread with FuseDaemon.java#mLock held
+            // fuse_inval(fuse->se, parent, child, name, path);
+            std::thread t([=]() { fuse_inval(fuse->se, parent, child, name, path); });
+            t.detach();
         }
     } else {
         LOG(WARNING) << "FUSE daemon is inactive. Cannot invalidate dentry";
